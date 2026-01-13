@@ -5,7 +5,32 @@ import questionary
 import time
 from ffpyplayer.player import MediaPlayer
 from pytube import YouTube
-import ytDl #local import that download the video
+import ytDl
+
+def show_nyx_banner():
+    nyx = [
+        "███╗   ██╗██╗   ██╗██╗  ██╗",
+        "████╗  ██║╚██╗ ██╔╝╚██╗██╔╝",
+        "██╔██╗ ██║ ╚████╔╝  ╚███╔╝ ",
+        "██║╚██╗██║  ╚██╔╝   ██╔██╗ ",
+        "██║ ╚████║   ██║   ██╔╝ ██╗",
+        "╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝"
+    ]
+
+    colors = [
+        196, 202, 208, 214, 220, 226,
+        190, 154, 118, 82, 46, 47,
+        48, 49, 51, 45, 39, 33
+    ]
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    for i, line in enumerate(nyx):
+        color = colors[i % len(colors)]
+        print(f"\033[38;5;{color}m{line}\033[0m")
+
+    print("\n\033[38;5;245m• terminal ascii video player •\033[0m\n")
+    time.sleep(0.8)
 
 
 ASPECT_RATIO = 1.5
@@ -26,7 +51,7 @@ display_modes = [
     "Local file"
 ]
 
-#Might still be messy
+show_nyx_banner()
 ascii_choice = questionary.select(
     "What ASCII scheme to use ? (Try the other options if video looks bad)",
     choices=list(palletes.keys()),
@@ -65,32 +90,6 @@ def grayscale(rgb):
     b = int(rgb[2])
     brightness = (r + g + b) / 3
     return brightness
-
-
-def show_nyx_banner():
-    nyx = [
-        "███╗   ██╗██╗   ██╗██╗  ██╗",
-        "████╗  ██║╚██╗ ██╔╝╚██╗██╔╝",
-        "██╔██╗ ██║ ╚████╔╝  ╚███╔╝ ",
-        "██║╚██╗██║  ╚██╔╝   ██╔██╗ ",
-        "██║ ╚████║   ██║   ██╔╝ ██╗",
-        "╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝"
-    ]
-
-    colors = [
-        196, 202, 208, 214, 220, 226,
-        190, 154, 118, 82, 46, 47,
-        48, 49, 51, 45, 39, 33
-    ]
-
-    os.system("cls" if os.name == "nt" else "clear")
-
-    for i, line in enumerate(nyx):
-        color = colors[i % len(colors)]
-        print(f"\033[38;5;{color}m{line}\033[0m")
-
-    print("\n\033[38;5;245m• terminal ascii video player •\033[0m\n")
-    time.sleep(0.8)
 
 
 def print_frame(img, frame_time):
