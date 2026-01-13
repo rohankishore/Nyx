@@ -66,30 +66,50 @@ def grayscale(rgb):
     brightness = (r + g + b) / 3
     return brightness
 
+
+def show_nyx_banner():
+    nyx = [
+        "███╗   ██╗██╗   ██╗██╗  ██╗",
+        "████╗  ██║╚██╗ ██╔╝╚██╗██╔╝",
+        "██╔██╗ ██║ ╚████╔╝  ╚███╔╝ ",
+        "██║╚██╗██║  ╚██╔╝   ██╔██╗ ",
+        "██║ ╚████║   ██║   ██╔╝ ██╗",
+        "╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝"
+    ]
+
+    colors = [
+        196, 202, 208, 214, 220, 226,
+        190, 154, 118, 82, 46, 47,
+        48, 49, 51, 45, 39, 33
+    ]
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    for i, line in enumerate(nyx):
+        color = colors[i % len(colors)]
+        print(f"\033[38;5;{color}m{line}\033[0m")
+
+    print("\n\033[38;5;245m• terminal ascii video player •\033[0m\n")
+    time.sleep(0.8)
+
+
 def print_frame(img, frame_time):
     current_time = time.time()
-    #Take image, turn greyscale, resize
-
-    #Find maximum number of characters based on terminal size
-    #Check terminal size in loop to be fancy
     terminal = os.get_terminal_size()
     term_width = terminal.columns
     term_height = terminal.lines
 
-    #Needs to be even to center neatly
     if term_width % 2 != 0:
         term_width -= 1
 
     height = img.shape[0]
     width = img.shape[1]
-    #How much width per height for original to keep aspect ratio
     original_ratio = width / height
 
     width_ratio = term_width / width
     height_ratio = term_height / height
 
     if mode == 1:
-        # Maintain aspect ratio - fit to terminal height
         new_height = term_height - 2  # Leave space for top/bottom
         new_width = int(new_height * original_ratio / ASPECT_RATIO)
         # Ensure it fits within terminal width
@@ -107,7 +127,7 @@ def print_frame(img, frame_time):
 
     #How much of the brightness each character occupies
     magic_num = 255/(len(ascii_scheme)-1.001)
-    #This does the actual job
+    #Well, ivde aan main ppd
     ascii = ""
     for col in small_img:
         size_difference = term_width - small_width
