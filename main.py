@@ -4,24 +4,11 @@ import os
 import questionary
 import time
 from ffpyplayer.player import MediaPlayer
-#from pytube import YouTube
-import downloadVid #local import that download the video
+from pytube import YouTube
+import ytDl #local import that download the video
 
-#------------------------
-#If you don't want to download the video, comment out 7th line 
-# and change the path to the video you want to use on line 36
-#------------------------
 
-#To Add
-#Multithread
-#Cleanup
-#Use background color as an option
-#Option for flipped colors, looked cool
-#Remake in rust
-
-# ·  ·  ·  ·  #
-
-ASPECT_RATIO = 1.5 #Ratio of height to width for font
+ASPECT_RATIO = 1.5
 
 palletes = {
     "Regular": ["#", "%", "?", "+", ":", "·", "·"],
@@ -63,7 +50,7 @@ if display_choice == display_modes[0]:
     video_url = input("[*]Enter video URL: ")
 
     #Downloads video, returns path to file
-    path = downloadVid.download_video(video_url)
+    path = ytDl.download_video(video_url)
 else:
     path = questionary.text("Then what is the path to your video ?",).ask()
 
