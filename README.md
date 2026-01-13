@@ -5,8 +5,8 @@
 <h1 align="center">NYX</h1>
 
 <p align="center">
-  a terminal ascii video player<br>
-  born from darkness and dots
+  terminal ascii video player<br>
+  light reduced to symbols
 </p>
 
 <p align="center">
@@ -17,54 +17,68 @@
 
 ### • what is nyx
 
-**nyx** is a minimalist terminal video player that renders videos using  
-**pure dots in darkness**.
+**nyx** is a terminal-based video player that renders videos frame-by-frame  
+using **ASCII symbols** and **true-color ANSI output**.
 
-no colors  
-no gradients  
-no noise  
+it supports:
+• local video files  
+• youtube videos  
+• audio playback  
+• adaptive terminal resizing  
 
-just contrast, motion, and silence between frames.
-
----
-
-### • why nyx
-
-nyx thrives where light is limited.
-
-• dots over characters  
-• silhouettes over detail  
-• motion over resolution  
-• atmosphere over accuracy  
-
-if it survives at 1-bit, it belongs here.
+nyx works best in darkness.
 
 ---
 
-### • features
+### • how it works
 
-• dot-only rendering  
-• high-contrast playback  
-• terminal-friendly fps  
-• ssh compatible  
-• zero ui clutter  
-• distraction-free viewing  
+• reads video frames using **opencv**  
+• converts pixels to brightness  
+• maps brightness to ascii characters  
+• renders frames using **24-bit ANSI colors**  
+• syncs audio using **ffpyplayer**  
 
----
-
-### • ideal content
-
-• silhouette animations  
-• black & white videos  
-• high-contrast edits  
-• abstract motion  
-• rhythm-driven visuals  
-
-nyx loves shadows.
+every frame is redrawn inside your terminal.
 
 ---
 
-### • usage
+### • ascii palettes
+
+nyx supports multiple ascii rendering styles:
+
+• **regular** — balanced contrast  
+• **inverse** — dark-first visuals  
+• **monochrome** — extreme minimalism  
+
+choose the one that fits your video.
+
+---
+
+### • display modes
+
+• **maintain aspect ratio**  
+• **use maximum terminal space**  
+
+nyx automatically adapts to your terminal size.
+
+---
+
+### • supported sources
+
+• local video files  
+• youtube links (auto-download)  
+
+---
+
+### • requirements
+
+• python 3.9+  
+• opencv  
+• ffpyplayer  
+• pytube  
+• questionary  
+
+install dependencies:
 
 ```bash
-nyx video.mp4
+pip install opencv-python ffpyplayer pytube questionary
