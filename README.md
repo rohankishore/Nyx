@@ -1,23 +1,22 @@
 <p align="center">
-  • • •
-</p>
 
-<h1 align="center">NYX</h1>
+<img width="332" height="150" alt="nyx-banner" src="https://github.com/user-attachments/assets/f727555e-6437-4e90-9ba1-22d508e47206" />
+
+</p>
 
 <p align="center">
   terminal ascii video player<br>
   light reduced to symbols
 </p>
 
-<p align="center">
-  • • • • •
-</p>
-
 ---
 
-### • what is nyx
+## • WTF is Nyx?
 
-**nyx** is a terminal-based video player that renders videos frame-by-frame  
+![deadpool - Trim](https://github.com/user-attachments/assets/f9e05f6d-38ab-4b4a-81e7-b69e3af167fe)
+
+
+**Nyx** is a terminal-based video player that renders videos frame-by-frame  
 using **ASCII symbols** and **true-color ANSI output**.
 
 it supports:
@@ -26,11 +25,20 @@ it supports:
 • audio playback  
 • adaptive terminal resizing  
 
-nyx works best in darkness.
+Nyx works best in darkness.
 
 ---
 
-### • how it works
+## • Usage
+
+```bash
+python main.py
+```
+
+
+---
+
+## • How it Works
 
 • reads video frames using **opencv**  
 • converts pixels to brightness  
@@ -42,7 +50,7 @@ every frame is redrawn inside your terminal.
 
 ---
 
-### • ascii palettes
+## • ASCII Palettes
 
 nyx supports multiple ascii rendering styles:
 
@@ -54,31 +62,29 @@ choose the one that fits your video.
 
 ---
 
-### • display modes
+## • Display Modes
 
 • **maintain aspect ratio**  
 • **use maximum terminal space**  
 
-nyx automatically adapts to your terminal size.
+Nyx automatically adapts to your terminal size.
+
+  > [!TIP]
+  > Use the Terminal in Full Screen for the best results
 
 ---
 
-### • supported sources
+## • Supported Sources
 
 • local video files  
 • youtube links (auto-download)  
 
 ---
 
-### • requirements
-
-• python 3.9+  
-• opencv  
-• ffpyplayer  
-• pytube  
-• questionary  
+## • Requirements
 
 install dependencies:
 
 ```bash
-pip install opencv-python ffpyplayer pytube questionary
+pip install -r requirements.txt
+```
