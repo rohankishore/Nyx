@@ -30,7 +30,7 @@ def show_nyx_banner():
         print(f"\033[38;5;{color}m{line}\033[0m")
 
     print("\n\033[38;5;245m• terminal ascii video player •\033[0m\n")
-    time.sleep(0.8)  # dramatic pause lol
+    time.sleep(0.8)
 
 
 ASPECT_RATIO = 1.5
@@ -76,7 +76,6 @@ if display_choice == display_modes[0]:
 else:
     path = questionary.text("path to your video?",).ask()
 
-# setup video
 video = cv2.VideoCapture(path)
 player = MediaPlayer(path)
 
@@ -108,21 +107,17 @@ def print_frame(img, frame_time):
     if mode == 1:
         new_height = term_height - 2
         new_width = int(new_height * original_ratio / ASPECT_RATIO)
-        # make sure it doesn't overflow
         if new_width > term_width:
             new_width = term_width
             new_height = int(new_width * ASPECT_RATIO / original_ratio)
         small_img = cv2.resize(img, (new_width, new_height))
     elif mode == 2:
-        # just use all available space
         small_img = cv2.resize(img, (0, 0), fx=width_ratio, fy=height_ratio)
 
     small_height = small_img.shape[0]
     small_width = small_img.shape[1]
 
-    # figure out brightness steps for each ascii char
     magic_num = 255/(len(ascii_scheme)-1.001)
-    # main rendering loop
     ascii = ""
     for col in small_img:
         size_difference = term_width - small_width
@@ -139,13 +134,12 @@ def print_frame(img, frame_time):
 
     print(ascii[:-1], end="\033[0m")
     
-    # sync frame timing
     elapsed = time.time() - current_time
     sleep_time = max(0, frame_time - elapsed)
     if sleep_time > 0:
         time.sleep(sleep_time)
     
-    sys.stdout.write(f"\033[{small_height + 1}F")  # move cursor back up
+    sys.stdout.write(f"\033[{small_height + 1}F")
 
 fps = video.get(cv2.CAP_PROP_FPS)
 print(f"fps: {fps}")
@@ -164,7 +158,6 @@ while True:
     expected_time = start_time + (frame_count * frame_time)
     current_time = time.time()
     
-    # drop frames if we're lagging
     if current_time > expected_time + frame_time:
         continue
     

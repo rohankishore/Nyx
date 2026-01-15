@@ -1,5 +1,3 @@
-# will prettify it later ig
-
 ESC = '\u001B['
 is_terminal_app = True
 
