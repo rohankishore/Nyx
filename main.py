@@ -30,7 +30,7 @@ def show_nyx_banner():
         print(f"\033[38;5;{color}m{line}\033[0m")
 
     print("\n\033[38;5;245m• terminal ascii video player •\033[0m\n")
-    time.sleep(0.8)
+    time.sleep(0.8)  # dramatic pause lol
 
 
 ASPECT_RATIO = 1.5
@@ -53,33 +53,30 @@ display_modes = [
 
 show_nyx_banner()
 ascii_choice = questionary.select(
-    "What ASCII scheme to use ? (Try the other options if video looks bad)",
+    "Pick an ASCII style (if it looks weird try another one)",
     choices=list(palletes.keys()),
     ).ask()
 ascii_scheme = palletes[ascii_choice]
 
 mode_choice = questionary.select(
-    "Which do you prefer ? (If one breaks, pick the other)",
+    "Pick display mode (if one breaks just try the other)",
     choices=list(modes.keys())
 ).ask()
 mode = modes[mode_choice]
 
 display_choice = questionary.select(
-    "Would you like to play a video from YouTube or a local file ?",
+    "YouTube video or local file?",
     choices=display_modes
 ).ask()
 
 path = None
 if display_choice == display_modes[0]:
-    # Input video url
-    video_url = input("[*]Enter video URL: ")
-
-    #Downloads video, returns path to file
+    video_url = input("paste youtube link: ")
     path = ytDl.download_video(video_url)
 else:
-    path = questionary.text("Then what is the path to your video ?",).ask()
+    path = questionary.text("path to your video?",).ask()
 
-#Set video source
+# setup video
 video = cv2.VideoCapture(path)
 player = MediaPlayer(path)
 
@@ -109,24 +106,23 @@ def print_frame(img, frame_time):
     height_ratio = term_height / height
 
     if mode == 1:
-        new_height = term_height - 2  # Leave space for top/bottom
+        new_height = term_height - 2
         new_width = int(new_height * original_ratio / ASPECT_RATIO)
-        # Ensure it fits within terminal width
+        # make sure it doesn't overflow
         if new_width > term_width:
             new_width = term_width
             new_height = int(new_width * ASPECT_RATIO / original_ratio)
         small_img = cv2.resize(img, (new_width, new_height))
     elif mode == 2:
-        # Use max terminal space
+        # just use all available space
         small_img = cv2.resize(img, (0, 0), fx=width_ratio, fy=height_ratio)
 
-    #Find how much needs to be cleared every new frame
     small_height = small_img.shape[0]
     small_width = small_img.shape[1]
 
-    #How much of the brightness each character occupies
+    # figure out brightness steps for each ascii char
     magic_num = 255/(len(ascii_scheme)-1.001)
-    #Well, ivde aan main ppd
+    # main rendering loop
     ascii = ""
     for col in small_img:
         size_difference = term_width - small_width
@@ -141,21 +137,20 @@ def print_frame(img, frame_time):
             ascii += f'\x1b[38;2;{row[2]};{row[1]};{row[0]}m{character}'
         ascii += "\n"
 
-    print(ascii[:-1], end="\033[0m")  # Reset ANSI formatting
+    print(ascii[:-1], end="\033[0m")
     
-    # Calculate sleep time to maintain frame rate
+    # sync frame timing
     elapsed = time.time() - current_time
     sleep_time = max(0, frame_time - elapsed)
     if sleep_time > 0:
         time.sleep(sleep_time)
     
-    sys.stdout.write(f"\033[{small_height + 1}F")  # Cursor up n lines
+    sys.stdout.write(f"\033[{small_height + 1}F")  # move cursor back up
 
 fps = video.get(cv2.CAP_PROP_FPS)
-print(f"FPS is {fps}")
+print(f"fps: {fps}")
 frame_time = 1 / fps
 
-# Start timing from first frame
 start_time = time.time()
 frame_count = 0
 
@@ -165,18 +160,16 @@ while True:
     if not success:
         break
     
-    # Calculate expected time for this frame
     frame_count += 1
     expected_time = start_time + (frame_count * frame_time)
     current_time = time.time()
     
-    # Skip frames if we're behind schedule
+    # drop frames if we're lagging
     if current_time > expected_time + frame_time:
         continue
     
     print_frame(image, frame_time)
     
-    # Keep audio playing
     audio_frame, val = player.get_frame()
 
-print("\n\nVideo finished!")
+print("\n\ndone!")

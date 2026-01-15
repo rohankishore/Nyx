@@ -28,9 +28,9 @@ def download_video(video_url) -> str:
     filename = multi_replace_regex(yt.title, replacements) + ".mp4"
     file_path = os.path.join("Video/", filename)
 
-    #If file already exists, don't download it again
+    # skip download if we already have it
     if os.path.isfile(file_path):
-        print("Video already downloaded. Starting playback...")
+        print("already got this one, starting playback...")
         video_url = file_path
         return video_url
 
